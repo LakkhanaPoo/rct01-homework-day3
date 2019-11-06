@@ -50,7 +50,6 @@ class FilmListing extends Component {
             <span className="section-count">{this.props.faves.length}</span>
           </div>
         </div>
-
         {allFilms}
       </div>
     );

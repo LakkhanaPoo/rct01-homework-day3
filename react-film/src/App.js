@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import TMDB from "./TMDB";
 import FilmListing from "./components/FilmListing";
 import FilmDetails from "./components/FilmDetails";
-import "./App.css";
+import "./index.css";
 
 const { films } = TMDB;
-
 class App extends Component {
   state = {
     films: films,
@@ -25,15 +24,15 @@ class App extends Component {
   };
 
   handleDetailsClick = film => {
-    console.log(`Fetching detail for ${film.title}`);
-    const current = [...this.state.current];
-    const filmIndex = current.indexOf(film);
-    if (filmIndex === -1) {
-      current.push(film.title);
-    } else {
-      current.splice(filmIndex, 1);
-    }
-    this.setState({ current });
+    const url = `https://api.themoviedb.org/3/movie/${film.id}?api_key=${TMDB.api_key}&append_to_response=videos,images&language=en`;
+    fetch(url)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+        this.setState({ current: data });
+      });
   };
 
   render() {
